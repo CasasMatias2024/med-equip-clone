@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { mockProducts } from '@/data/mockProducts';
 import { LeadFormModal } from '@/components/shared/LeadFormModal';
+import { ProductCard } from '@/components/shared/ProductCard';
 
 export default function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -224,6 +225,42 @@ export default function ProductDetailPage() {
           )}
         </Tabs>
       </div>
+
+      {/* Our Process Section */}
+      <section className="py-16 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12 text-secondary">Our Process</h2>
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              { icon: '🔍', title: 'Inspection', description: 'Thorough evaluation of all components and systems' },
+              { icon: '🔧', title: 'Refurbishment', description: 'Expert technicians restore equipment to optimal condition' },
+              { icon: '✓', title: 'Testing', description: 'Rigorous quality assurance and performance testing' },
+              { icon: '📦', title: 'Delivery', description: 'Professional installation and comprehensive training' },
+            ].map((step, index) => (
+              <div key={index} className="text-center">
+                <div className="text-5xl mb-4">{step.icon}</div>
+                <h3 className="text-xl font-bold mb-2 text-secondary">{step.title}</h3>
+                <p className="text-muted-foreground">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Related Products Section */}
+      <section className="py-16 bg-background">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12 text-secondary">Related Products</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {mockProducts
+              .filter(p => p.category === product.category && p.id !== product.id)
+              .slice(0, 4)
+              .map(relatedProduct => (
+                <ProductCard key={relatedProduct.id} product={relatedProduct} />
+              ))}
+          </div>
+        </div>
+      </section>
 
       <LeadFormModal 
         open={modalOpen}

@@ -20,6 +20,10 @@ interface FilterGroup {
   options: FilterOption[];
 }
 
+interface FilterSidebarProps {
+  onFilterChange?: (filters: Record<string, string[]>) => void;
+}
+
 const filterGroups: FilterGroup[] = [
   {
     id: 'manufacturer',
@@ -50,23 +54,32 @@ const filterGroups: FilterGroup[] = [
   },
 ];
 
-export const FilterSidebar = () => {
+export const FilterSidebar = ({ onFilterChange }: FilterSidebarProps) => {
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
 
   const handleFilterChange = (groupId: string, optionId: string, checked: boolean) => {
     setSelectedFilters(prev => {
       const currentGroup = prev[groupId] || [];
+      let newFilters: Record<string, string[]>;
+      
       if (checked) {
-        return {
+        newFilters = {
           ...prev,
           [groupId]: [...currentGroup, optionId],
         };
       } else {
-        return {
+        newFilters = {
           ...prev,
           [groupId]: currentGroup.filter(id => id !== optionId),
         };
       }
+      
+      // Notify parent component of filter changes
+      if (onFilterChange) {
+        onFilterChange(newFilters);
+      }
+      
+      return newFilters;
     });
   };
 
