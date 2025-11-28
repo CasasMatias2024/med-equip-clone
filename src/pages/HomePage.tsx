@@ -14,6 +14,7 @@ import {
 import { Settings, Wrench, Headphones, Phone, CheckCircle2, Truck, ClipboardCheck, Package } from 'lucide-react';
 import { mockProducts } from '@/data/mockProducts';
 import { ProductCard } from '@/components/shared/ProductCard';
+import { SEOHead } from '@/components/shared/SEOHead';
 
 export default function HomePage() {
   const featuredProducts = mockProducts.filter(p => p.featured);
@@ -21,6 +22,11 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
+      <SEOHead 
+        title="Refurbished Mammography Systems & Medical Equipment"
+        description="Leading supplier of refurbished mammography systems, parts, and medical imaging equipment. Quality tested 2D/3D systems from Hologic, Fujifilm, and more. Professional installation and support included."
+        canonicalUrl={window.location.origin}
+      />
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-accent via-background to-medical-blue-light py-20 lg:py-32">
         <div className="container mx-auto px-4">

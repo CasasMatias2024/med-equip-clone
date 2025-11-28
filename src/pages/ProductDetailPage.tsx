@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { mockProducts } from '@/data/mockProducts';
 import { LeadFormModal } from '@/components/shared/LeadFormModal';
 import { ProductCard } from '@/components/shared/ProductCard';
+import { SEOHead } from '@/components/shared/SEOHead';
 
 export default function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -21,6 +22,9 @@ export default function ProductDetailPage() {
 
   const categoryLabel = product.category === 'system' ? 'Systems' : 'Parts';
   const categoryPath = product.category === 'system' ? '/systems' : '/parts';
+  
+  // Generate SEO-friendly description
+  const seoDescription = `${product.condition === 'new' ? 'Brand New' : 'Refurbished'} ${product.title} ${product.modality ? `- ${product.modality}` : ''}. Professional medical imaging equipment with warranty, installation, and training included. Request pricing today.`;
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => 
@@ -36,6 +40,12 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        title={product.title}
+        description={seoDescription}
+        canonicalUrl={`${window.location.origin}${categoryPath}/${product.slug}`}
+        productData={product}
+      />
       {/* Breadcrumbs */}
       <div className="bg-muted/30 py-4">
         <div className="container mx-auto px-4">
